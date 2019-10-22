@@ -1,4 +1,5 @@
 import java.lang.reflect.Constructor;
+import java.util.Arrays;
 
 public class Inspector {
 
@@ -19,12 +20,22 @@ public class Inspector {
     		System.out.println("INTERFACE NAME: " + c.getName());
     	}
     	
-    	for(int i = 0; i < depth; i++) {
-    		System.out.print('\t');
-    	}
     	Constructor<?>[] cons = c.getConstructors();
     	for(int i = 0; i < cons.length; i++) {
+    		
+        	for(int j = 0; j < depth; j++) {
+        		System.out.print('\t');
+        	}
+        	
     		System.out.println("CONSTRUCTOR " + i + ": " + cons[i].getName());
+    		
+        	for(int j = 0; j < depth; j++) {
+        		System.out.print('\t');
+        	}
+        	
+        	Class<?>[] types = cons[i].getParameterTypes();
+        	System.out.println("TYPES: " + Arrays.asList(types));
+        	
     	}
     	
     	Class temp = c;
