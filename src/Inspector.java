@@ -44,7 +44,7 @@ public class Inspector {
         	}
         	
         	int mods = cons[i].getModifiers();
-        	System.out.println("MODIFIER: " + Modifier.toString(mods));
+        	System.out.println("MODIFIERS: " + Modifier.toString(mods));
         	
     	}
     	
@@ -73,7 +73,13 @@ public class Inspector {
         		System.out.print('\t');
         	}
         	
-    		System.out.println("RETURN TYPES " + Arrays.asList(meths[i].getReturnType()));
+    		System.out.println("RETURN TYPE " + Arrays.asList(meths[i].getReturnType()));
+    		
+    		for(int j = 0; j < depth; j++) {
+        		System.out.print('\t');
+        	}
+        	
+    		System.out.println("MODIFERS" + Arrays.asList(Modifier.toString(meths[i].getModifiers())));
     	}
     	
     	Class temp = c;
