@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -55,6 +56,8 @@ public class Inspector {
         	}
         	
     		System.out.println("METHOD " + i + ": " + meths[i].getName());
+    		System.out.println("RETURN TYPES: " + Arrays.asList(meths[i].getExceptionTypes()));
+    		
     	}
     	
     	Class temp = c;
