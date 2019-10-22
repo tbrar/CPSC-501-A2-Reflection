@@ -56,7 +56,18 @@ public class Inspector {
         	}
         	
     		System.out.println("METHOD " + i + ": " + meths[i].getName());
-    		System.out.println("RETURN TYPES: " + Arrays.asList(meths[i].getExceptionTypes()));
+    		
+        	for(int j = 0; j < depth; j++) {
+        		System.out.print('\t');
+        	}
+        	
+    		System.out.println("EXCEPTION TYPES: " + Arrays.asList(meths[i].getExceptionTypes()));
+    		
+        	for(int j = 0; j < depth; j++) {
+        		System.out.print('\t');
+        	}
+        	
+    		System.out.println("PARAMETER TYPES " + Arrays.asList(meths[i].getParameterTypes()));
     		
     	}
     	
