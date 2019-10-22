@@ -69,6 +69,11 @@ public class Inspector {
         	
     		System.out.println("PARAMETER TYPES " + Arrays.asList(meths[i].getParameterTypes()));
     		
+        	for(int j = 0; j < depth; j++) {
+        		System.out.print('\t');
+        	}
+        	
+    		System.out.println("RETURN TYPES " + Arrays.asList(meths[i].getReturnType()));
     	}
     	
     	Class temp = c;
