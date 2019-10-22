@@ -1,3 +1,4 @@
+import java.lang.reflect.Constructor;
 
 public class Inspector {
 
@@ -18,8 +19,16 @@ public class Inspector {
     		System.out.println("INTERFACE NAME: " + c.getName());
     	}
     	
+    	for(int i = 0; i < depth; i++) {
+    		System.out.print('\t');
+    	}
+    	Constructor<?>[] cons = c.getConstructors();
+    	for(int i = 0; i < cons.length; i++) {
+    		System.out.println("CONSTRUCTOR " + i + ": " + cons[i].getName());
+    	}
+    	
     	Class temp = c;
-    	while(temp.getSuperclass() != null) { // superclasses
+    	while(temp.getSuperclass() != null) {
     		temp = temp.getSuperclass();
     		inspectClass(temp, obj, recursive, depth+1);
     	}
