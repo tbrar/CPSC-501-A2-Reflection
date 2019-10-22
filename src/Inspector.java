@@ -68,19 +68,19 @@ public class Inspector {
         		System.out.print('\t');
         	}
         	
-    		System.out.println("PARAMETER TYPES " + Arrays.asList(meths[i].getParameterTypes()));
+    		System.out.println("PARAMETER TYPES: " + Arrays.asList(meths[i].getParameterTypes()));
     		
         	for(int j = 0; j < depth; j++) {
         		System.out.print('\t');
         	}
         	
-    		System.out.println("RETURN TYPE " + Arrays.asList(meths[i].getReturnType()));
+    		System.out.println("RETURN TYPE: " + Arrays.asList(meths[i].getReturnType()));
     		
     		for(int j = 0; j < depth; j++) {
         		System.out.print('\t');
         	}
         	
-    		System.out.println("MODIFERS" + Arrays.asList(Modifier.toString(meths[i].getModifiers())));
+    		System.out.println("MODIFERS: " + Arrays.asList(Modifier.toString(meths[i].getModifiers())));
     	}
     	
     	Field[] fields = c.getDeclaredFields();
@@ -90,6 +90,12 @@ public class Inspector {
         	}
         	
     		System.out.println("FIELD " + i + ": " + fields[i].getName());
+    		
+        	for(int j = 0; j < depth; j++) {
+        		System.out.print('\t');
+        	}
+        	
+    		System.out.println("TYPE: " + fields[i].getType());
     	}
     	
     	Class temp = c;
