@@ -1,4 +1,5 @@
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
@@ -44,6 +45,16 @@ public class Inspector {
         	int mods = cons[i].getModifiers();
         	System.out.println("MODIFIER: " + Modifier.toString(mods));
         	
+    	}
+    	
+    	Method[] meths = c.getMethods();
+    	for(int i = 0; i < meths.length; i++) {
+    		
+        	for(int j = 0; j < depth; j++) {
+        		System.out.print('\t');
+        	}
+        	
+    		System.out.println("METHOD " + i + ": " + meths[i].getName());
     	}
     	
     	Class temp = c;
