@@ -1,5 +1,6 @@
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
@@ -48,7 +49,7 @@ public class Inspector {
         	
     	}
     	
-    	Method[] meths = c.getMethods();
+    	Method[] meths = c.getDeclaredMethods();
     	for(int i = 0; i < meths.length; i++) {
     		
         	for(int j = 0; j < depth; j++) {
@@ -80,6 +81,15 @@ public class Inspector {
         	}
         	
     		System.out.println("MODIFERS" + Arrays.asList(Modifier.toString(meths[i].getModifiers())));
+    	}
+    	
+    	Field[] fields = c.getDeclaredFields();
+    	for(int i = 0; i < fields.length; i++) {
+        	for(int j = 0; j < depth; j++) {
+        		System.out.print('\t');
+        	}
+        	
+    		System.out.println("FIELD " + i + ": " + fields[i].getName());
     	}
     	
     	Class temp = c;
