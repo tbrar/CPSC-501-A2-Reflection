@@ -96,6 +96,12 @@ public class Inspector {
         	}
         	
     		System.out.println("TYPE: " + fields[i].getType());
+    		
+        	for(int j = 0; j < depth; j++) {
+        		System.out.print('\t');
+        	}
+    		
+    		System.out.println("MODIFERS: " + Arrays.asList(Modifier.toString(fields[i].getModifiers())));
     	}
     	
     	Class temp = c;
