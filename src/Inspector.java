@@ -1,4 +1,5 @@
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
 public class Inspector {
@@ -35,6 +36,13 @@ public class Inspector {
         	
         	Class<?>[] types = cons[i].getParameterTypes();
         	System.out.println("TYPES: " + Arrays.asList(types));
+        	
+        	for(int j = 0; j < depth; j++) {
+        		System.out.print('\t');
+        	}
+        	
+        	int mods = cons[i].getModifiers();
+        	System.out.println("MODIFIER: " + Modifier.toString(mods));
         	
     	}
     	
