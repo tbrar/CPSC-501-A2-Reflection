@@ -46,7 +46,7 @@ public class Inspector {
         	
         	int mods = cons[i].getModifiers();
         	System.out.println("MODIFIERS: " + Modifier.toString(mods));
-        	
+        
     	}
     	
     	Method[] meths = c.getDeclaredMethods();
@@ -102,6 +102,24 @@ public class Inspector {
         	}
     		
     		System.out.println("MODIFERS: " + Arrays.asList(Modifier.toString(fields[i].getModifiers())));
+    		
+    		if(recursive == true && !(fields[i].getType().isPrimitive())) {
+        		inspectClass(fields[i].getType(), fields[i], recursive, depth+1);
+    		}
+    		else {
+    			fields[i].setAccessible(true);
+    			try {
+					System.out.println("VALUE: " + fields[i].get(obj));
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
+    	}
+    	
+    	Class<?>[] interfaces = c.getInterfaces();
+    	for(int i = 0; i < interfaces.length; i++) {
+    		inspectClass(interfaces[i], obj, recursive, depth+1);
     	}
     	
     	Class temp = c;
@@ -110,9 +128,5 @@ public class Inspector {
     		inspectClass(temp, obj, recursive, depth+1);
     	}
     	
-    	Class<?>[] interfaces = c.getInterfaces();
-    	for(int i = 0; i < interfaces.length; i++) {
-    		inspectClass(interfaces[i], obj, recursive, depth+1);
-    	}
     }
 }
