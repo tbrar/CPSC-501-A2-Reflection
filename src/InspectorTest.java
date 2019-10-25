@@ -29,9 +29,21 @@ public class InspectorTest {
 	    String actual = output.toString();
 	    assertEquals(expected, actual);
 	}
+	
+	@Test
+	public void fieldTest() {
+		Inspector inspector = new Inspector();
+		TestClass test = new TestClass();
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+	    System.setOut(new PrintStream(output));
+	    inspector.printFields(test.getClass(), test, false, 0, false);
+	    String expected = "----START FIELDS----\r\nFIELD 0: val\r\nTYPE: int\r\nMODIFERS: [final]\r\nVALUE: 3\r\n----END FIELDS----\r\n";
+	    String actual = output.toString();
+	    assertEquals(expected, actual);
+	}
 }
 class TestClass{
-	int[] testArray = {1,2,3};
+	final int val = 3;
 	
 }
 
