@@ -15,14 +15,10 @@ public class Inspector {
     private void inspectClass(Class c, Object obj, boolean recursive, int depth) {
     	System.out.println();
     	
-    	for(int j = 0; j < depth; j++) {
-    		System.out.print('\t');
-    	}
+    	indent(depth);
     	
 		System.out.println("#####START CLASS INSPECTION#####");
-    	for(int i = 0; i < depth; i++) {
-    		System.out.print('\t');
-    	}
+    	indent(depth);
     	if(c.isInterface() == false) {
     		System.out.println("CLASS NAME: " + c.getName());
     	}
@@ -31,117 +27,83 @@ public class Inspector {
     	}
     	System.out.println();
     	
-    	for(int j = 0; j < depth; j++) {
-    		System.out.print('\t');
-    	}
+    	indent(depth);
     	
 		System.out.println("----START CONSTRUCTORS----");
     	Constructor<?>[] cons = c.getConstructors();
     	for(int i = 0; i < cons.length; i++) {
     		
-        	for(int j = 0; j < depth; j++) {
-        		System.out.print('\t');
-        	}
+        	indent(depth);
         	
     		System.out.println("CONSTRUCTOR " + i + ": " + cons[i].getName());
     		
-        	for(int j = 0; j < depth; j++) {
-        		System.out.print('\t');
-        	}
+        	indent(depth);
         	
         	Class<?>[] types = cons[i].getParameterTypes();
         	System.out.println("TYPES: " + Arrays.asList(types));
         	
-        	for(int j = 0; j < depth; j++) {
-        		System.out.print('\t');
-        	}
+        	indent(depth);
         	
         	int mods = cons[i].getModifiers();
         	System.out.println("MODIFIERS: " + Modifier.toString(mods));
         
     	}
     	
-    	for(int j = 0; j < depth; j++) {
-    		System.out.print('\t');
-    	}
+    	indent(depth);
     	
 		System.out.println("----END CONSTRUCTORS----");
     	System.out.println();
     	
-    	for(int j = 0; j < depth; j++) {
-    		System.out.print('\t');
-    	}
+    	indent(depth);
     	
 		System.out.println("----START METHODS----");
     	Method[] meths = c.getDeclaredMethods();
     	for(int i = 0; i < meths.length; i++) {
     		
-        	for(int j = 0; j < depth; j++) {
-        		System.out.print('\t');
-        	}
+        	indent(depth);
         	
     		System.out.println("METHOD " + i + ": " + meths[i].getName());
     		
-        	for(int j = 0; j < depth; j++) {
-        		System.out.print('\t');
-        	}
+        	indent(depth);
         	
     		System.out.println("EXCEPTION TYPES: " + Arrays.asList(meths[i].getExceptionTypes()));
     		
-        	for(int j = 0; j < depth; j++) {
-        		System.out.print('\t');
-        	}
+        	indent(depth);
         	
     		System.out.println("PARAMETER TYPES: " + Arrays.asList(meths[i].getParameterTypes()));
     		
-        	for(int j = 0; j < depth; j++) {
-        		System.out.print('\t');
-        	}
+        	indent(depth);
         	
     		System.out.println("RETURN TYPE: " + Arrays.asList(meths[i].getReturnType()));
     		
-    		for(int j = 0; j < depth; j++) {
-        		System.out.print('\t');
-        	}
+    		indent(depth);
         	
     		System.out.println("MODIFERS: " + Arrays.asList(Modifier.toString(meths[i].getModifiers())));
     	}
     	
-    	for(int j = 0; j < depth; j++) {
-    		System.out.print('\t');
-    	}
+    	indent(depth);
     	
 		System.out.println("----END METHODS----");
     	System.out.println();
     	
-    	for(int j = 0; j < depth; j++) {
-    		System.out.print('\t');
-    	}
+    	indent(depth);
     	
 		System.out.println("----START FIELDS----");
     	Field[] fields = c.getDeclaredFields();
     	for(int i = 0; i < fields.length; i++) {
-        	for(int j = 0; j < depth; j++) {
-        		System.out.print('\t');
-        	}
+        	indent(depth);
         	
     		System.out.println("FIELD " + i + ": " + fields[i].getName());
     		
-        	for(int j = 0; j < depth; j++) {
-        		System.out.print('\t');
-        	}
+        	indent(depth);
         	
     		System.out.println("TYPE: " + fields[i].getType());
     		
-        	for(int j = 0; j < depth; j++) {
-        		System.out.print('\t');
-        	}
+        	indent(depth);
     		
     		System.out.println("MODIFERS: " + Arrays.asList(Modifier.toString(fields[i].getModifiers())));
     		
-        	for(int j = 0; j < depth; j++) {
-        		System.out.print('\t');
-        	}
+        	indent(depth);
         	
 			try {
 				fields[i].setAccessible(true);
@@ -162,9 +124,7 @@ public class Inspector {
 				try {
 					fields[i].setAccessible(true);
 		        	System.out.println("COMPONENT TYPE: " + fields[i].get(obj).getClass().getComponentType());
-		        	for(int j = 0; j < depth; j++) {
-		        		System.out.print('\t');
-		        	}
+		        	indent(depth);
 		        	System.out.println("ARRAY LENGTH: " + Array.getLength(fields[i].get(obj)));
 		        	System.out.print("ARRAY CONTENTS: ");
 					for(int j = 0; j < Array.getLength(fields[i].get(obj)); j++) {
@@ -184,16 +144,12 @@ public class Inspector {
 			}
     	}
     	
-    	for(int j = 0; j < depth; j++) {
-    		System.out.print('\t');
-    	}
+    	indent(depth);
     	
 		System.out.println("----END FIELDS----");
     	System.out.println();
     	
-    	for(int j = 0; j < depth; j++) {
-    		System.out.print('\t');
-    	}
+    	indent(depth);
     	
 		System.out.println("----START INTERFACES----");
     	Class<?>[] interfaces = c.getInterfaces();
@@ -201,15 +157,11 @@ public class Inspector {
     		inspectClass(interfaces[i], obj, recursive, depth+1);
     	}
     	
-    	for(int j = 0; j < depth; j++) {
-    		System.out.print('\t');
-    	}
+    	indent(depth);
     	
 		System.out.println("----END INTERFACES----");
 		System.out.println();
-    	for(int j = 0; j < depth; j++) {
-    		System.out.print('\t');
-    	}
+    	indent(depth);
     	
 		System.out.println("----START SUPERCLASSES----");
     	Class temp = c;
@@ -218,19 +170,21 @@ public class Inspector {
     		inspectClass(temp, obj, recursive, depth+1);
     	}
     	
-    	for(int j = 0; j < depth; j++) {
-    		System.out.print('\t');
-    	}
+    	indent(depth);
     	
 		System.out.println("----END SUPERCLASSES----");
 		System.out.println();
 		
-    	for(int j = 0; j < depth; j++) {
-    		System.out.print('\t');
-    	}
+    	indent(depth);
     	
 		System.out.println("####END CLASS INSPECTION####");
     }
+
+	private void indent(int depth) {
+		for(int i = 0; i < depth; i++) {
+    		System.out.print('\t');
+    	}
+	}
 	
 
 }
