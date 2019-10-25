@@ -14,6 +14,12 @@ public class Inspector {
 
     private void inspectClass(Class c, Object obj, boolean recursive, int depth) {
     	System.out.println();
+    	
+    	for(int j = 0; j < depth; j++) {
+    		System.out.print('\t');
+    	}
+    	
+		System.out.println("#####START CLASS INSPECTION#####");
     	for(int i = 0; i < depth; i++) {
     		System.out.print('\t');
     	}
@@ -23,7 +29,13 @@ public class Inspector {
     	else {
     		System.out.println("INTERFACE NAME: " + c.getName());
     	}
+    	System.out.println();
     	
+    	for(int j = 0; j < depth; j++) {
+    		System.out.print('\t');
+    	}
+    	
+		System.out.println("----START CONSTRUCTORS----");
     	Constructor<?>[] cons = c.getConstructors();
     	for(int i = 0; i < cons.length; i++) {
     		
@@ -49,6 +61,18 @@ public class Inspector {
         
     	}
     	
+    	for(int j = 0; j < depth; j++) {
+    		System.out.print('\t');
+    	}
+    	
+		System.out.println("----END CONSTRUCTORS----");
+    	System.out.println();
+    	
+    	for(int j = 0; j < depth; j++) {
+    		System.out.print('\t');
+    	}
+    	
+		System.out.println("----START METHODS----");
     	Method[] meths = c.getDeclaredMethods();
     	for(int i = 0; i < meths.length; i++) {
     		
@@ -83,6 +107,18 @@ public class Inspector {
     		System.out.println("MODIFERS: " + Arrays.asList(Modifier.toString(meths[i].getModifiers())));
     	}
     	
+    	for(int j = 0; j < depth; j++) {
+    		System.out.print('\t');
+    	}
+    	
+		System.out.println("----END METHODS----");
+    	System.out.println();
+    	
+    	for(int j = 0; j < depth; j++) {
+    		System.out.print('\t');
+    	}
+    	
+		System.out.println("----START FIELDS----");
     	Field[] fields = c.getDeclaredFields();
     	for(int i = 0; i < fields.length; i++) {
         	for(int j = 0; j < depth; j++) {
@@ -103,8 +139,12 @@ public class Inspector {
     		
     		System.out.println("MODIFERS: " + Arrays.asList(Modifier.toString(fields[i].getModifiers())));
     		
-    		try {
-    			fields[i].setAccessible(true);
+        	for(int j = 0; j < depth; j++) {
+        		System.out.print('\t');
+        	}
+        	
+			try {
+				fields[i].setAccessible(true);
 				Object field = fields[i].get(obj);
 	    		if(field != null) {
 					System.out.println("VALUE: " + field);
@@ -113,21 +153,29 @@ public class Inspector {
 						inspectClass(fields[i].getType(), field, recursive, depth+1);
 					}
 	    		}
-			} catch (IllegalArgumentException | IllegalAccessException e2) {
+			} catch (IllegalArgumentException | IllegalAccessException e1) {
 				// TODO Auto-generated catch block
-				e2.printStackTrace();
+				e1.printStackTrace();
 			}
-    	
-    		
-        	for(int j = 0; j < depth; j++) {
-        		System.out.print('\t');
-        	}
 
-    		if(fields[i].getType().isArray() && !(fields[i].getType().isPrimitive())) {
+    		if(fields[i].getType().isArray()) {
 				try {
+					fields[i].setAccessible(true);
+		        	System.out.println("COMPONENT TYPE: " + fields[i].get(obj).getClass().getComponentType());
+		        	for(int j = 0; j < depth; j++) {
+		        		System.out.print('\t');
+		        	}
+		        	System.out.println("ARRAY LENGTH: " + Array.getLength(fields[i].get(obj)));
+		        	System.out.print("ARRAY CONTENTS: ");
 					for(int j = 0; j < Array.getLength(fields[i].get(obj)); j++) {
 						System.out.print(Array.get(fields[i].get(obj), j) + " ");
+						if(recursive == true && Array.get(fields[i].get(obj), j) != null && !fields[i].get(obj).getClass().getComponentType().isPrimitive()) {
+							inspectClass(Array.get(fields[i].get(obj), j).getClass(), Array.get(fields[i].get(obj), j), recursive, depth+1);
+						}
 					}
+					System.out.println();
+					System.out.println();
+		    		
 				} catch (IllegalArgumentException | IllegalAccessException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -136,16 +184,53 @@ public class Inspector {
 			}
     	}
     	
+    	for(int j = 0; j < depth; j++) {
+    		System.out.print('\t');
+    	}
+    	
+		System.out.println("----END FIELDS----");
+    	System.out.println();
+    	
+    	for(int j = 0; j < depth; j++) {
+    		System.out.print('\t');
+    	}
+    	
+		System.out.println("----START INTERFACES----");
     	Class<?>[] interfaces = c.getInterfaces();
     	for(int i = 0; i < interfaces.length; i++) {
     		inspectClass(interfaces[i], obj, recursive, depth+1);
     	}
     	
+    	for(int j = 0; j < depth; j++) {
+    		System.out.print('\t');
+    	}
+    	
+		System.out.println("----END INTERFACES----");
+		System.out.println();
+    	for(int j = 0; j < depth; j++) {
+    		System.out.print('\t');
+    	}
+    	
+		System.out.println("----START SUPERCLASSES----");
     	Class temp = c;
     	while(temp.getSuperclass() != null) {
     		temp = temp.getSuperclass();
     		inspectClass(temp, obj, recursive, depth+1);
     	}
     	
+    	for(int j = 0; j < depth; j++) {
+    		System.out.print('\t');
+    	}
+    	
+		System.out.println("----END SUPERCLASSES----");
+		System.out.println();
+		
+    	for(int j = 0; j < depth; j++) {
+    		System.out.print('\t');
+    	}
+    	
+		System.out.println("####END CLASS INSPECTION####");
     }
+	
+
 }
