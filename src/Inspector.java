@@ -52,7 +52,7 @@ public class Inspector {
 		System.out.println("####END CLASS INSPECTION####");
     }
     
-    private void printArrayInfo(Class c, Object obj, boolean recursive, int depth, boolean fieldarrayprinted) {
+    public void printArrayInfo(Class c, Object obj, boolean recursive, int depth, boolean fieldarrayprinted) {
     	System.out.println("COMPONENT TYPE: " + c.getComponentType());
     	indent(depth);
     	System.out.println("ARRAY LENGTH: " + Array.getLength(obj));
@@ -71,7 +71,7 @@ public class Inspector {
 		}
     }
 
-	private void printSuperClasses(Class c, Object obj, boolean recursive, int depth, boolean fieldarrayprinted) {
+	public void printSuperClasses(Class c, Object obj, boolean recursive, int depth, boolean fieldarrayprinted) {
 		System.out.println("----START SUPERCLASSES----");
     	Class temp = c;
     	while(temp.getSuperclass() != null) {
@@ -84,7 +84,7 @@ public class Inspector {
 		System.out.println("----END SUPERCLASSES----");
 	}
 
-	private void printInterfaces(Class c, Object obj, boolean recursive, int depth, boolean fieldarrayprinted) {
+	public void printInterfaces(Class c, Object obj, boolean recursive, int depth, boolean fieldarrayprinted) {
 		System.out.println("----START INTERFACES----");
     	Class<?>[] interfaces = c.getInterfaces();
     	for(int i = 0; i < interfaces.length; i++) {
@@ -96,7 +96,7 @@ public class Inspector {
 		System.out.println("----END INTERFACES----");
 	}
 
-	private void printFields(Class c, Object obj, boolean recursive, int depth, boolean fieldarrayprinted) {
+	public void printFields(Class c, Object obj, boolean recursive, int depth, boolean fieldarrayprinted) {
 		boolean printed = false;
 		System.out.println("----START FIELDS----");
     	Field[] fields = c.getDeclaredFields();
@@ -163,7 +163,7 @@ public class Inspector {
 		System.out.println("----END FIELDS----");
 	}
 
-	private void printMethods(Class c, int depth) {
+	public void printMethods(Class c, int depth) {
 		System.out.println("----START METHODS----");
     	Method[] meths = c.getDeclaredMethods();
     	for(int i = 0; i < meths.length; i++) {
@@ -194,7 +194,7 @@ public class Inspector {
 		System.out.println("----END METHODS----");
 	}
 
-	private void printConstructors(Class c, int depth) {
+	public void printConstructors(Class c, int depth) {
 		System.out.println("----START CONSTRUCTORS----");
     	Constructor<?>[] cons = c.getConstructors();
     	for(int i = 0; i < cons.length; i++) {
@@ -217,7 +217,7 @@ public class Inspector {
     	System.out.println("----END CONSTRUCTORS----");
 	}
 
-	private void printClassName(Class c) {
+	public void printClassName(Class c) {
 		if(c.isInterface() == true) {
 			System.out.println("INTERFACE NAME: " + c.getName());
     	}
@@ -229,7 +229,7 @@ public class Inspector {
     	}
 	}
 
-	private void indent(int depth) {
+	public void indent(int depth) {
 		for(int i = 0; i < depth; i++) {
     		System.out.print('\t');
     	}
