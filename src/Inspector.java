@@ -18,76 +18,61 @@ public class Inspector {
     	indent(depth);
     	
 		System.out.println("#####START CLASS INSPECTION#####");
+		
     	indent(depth);
-    	if(c.isInterface() == false) {
-    		System.out.println("CLASS NAME: " + c.getName());
-    	}
-    	else {
-    		System.out.println("INTERFACE NAME: " + c.getName());
-    	}
+    	printClassName(c);
     	System.out.println();
     	
     	indent(depth);
+		printConstructors(c, depth);
+		System.out.println();
     	
-		System.out.println("----START CONSTRUCTORS----");
-    	Constructor<?>[] cons = c.getConstructors();
-    	for(int i = 0; i < cons.length; i++) {
-    		
-        	indent(depth);
-        	
-    		System.out.println("CONSTRUCTOR " + i + ": " + cons[i].getName());
-    		
-        	indent(depth);
-        	
-        	Class<?>[] types = cons[i].getParameterTypes();
-        	System.out.println("TYPES: " + Arrays.asList(types));
-        	
-        	indent(depth);
-        	
-        	int mods = cons[i].getModifiers();
-        	System.out.println("MODIFIERS: " + Modifier.toString(mods));
-        
+    	indent(depth);
+		printMethods(c, depth);
+    	System.out.println();
+    	
+    	indent(depth);
+		printFields(c, obj, recursive, depth);
+    	System.out.println();
+    	
+    	indent(depth);
+		printInterfaces(c, obj, recursive, depth);
+		System.out.println();
+		
+    	indent(depth);
+		printSuperClasses(c, obj, recursive, depth);
+		System.out.println();
+		
+    	indent(depth);
+		System.out.println("####END CLASS INSPECTION####");
+    }
+
+	private void printSuperClasses(Class c, Object obj, boolean recursive, int depth) {
+		System.out.println("----START SUPERCLASSES----");
+    	Class temp = c;
+    	while(temp.getSuperclass() != null) {
+    		temp = temp.getSuperclass();
+    		inspectClass(temp, obj, recursive, depth+1);
     	}
     	
     	indent(depth);
     	
-		System.out.println("----END CONSTRUCTORS----");
-    	System.out.println();
-    	
-    	indent(depth);
-    	
-		System.out.println("----START METHODS----");
-    	Method[] meths = c.getDeclaredMethods();
-    	for(int i = 0; i < meths.length; i++) {
-    		
-        	indent(depth);
-        	
-    		System.out.println("METHOD " + i + ": " + meths[i].getName());
-    		
-        	indent(depth);
-        	
-    		System.out.println("EXCEPTION TYPES: " + Arrays.asList(meths[i].getExceptionTypes()));
-    		
-        	indent(depth);
-        	
-    		System.out.println("PARAMETER TYPES: " + Arrays.asList(meths[i].getParameterTypes()));
-    		
-        	indent(depth);
-        	
-    		System.out.println("RETURN TYPE: " + Arrays.asList(meths[i].getReturnType()));
-    		
-    		indent(depth);
-        	
-    		System.out.println("MODIFERS: " + Arrays.asList(Modifier.toString(meths[i].getModifiers())));
+		System.out.println("----END SUPERCLASSES----");
+	}
+
+	private void printInterfaces(Class c, Object obj, boolean recursive, int depth) {
+		System.out.println("----START INTERFACES----");
+    	Class<?>[] interfaces = c.getInterfaces();
+    	for(int i = 0; i < interfaces.length; i++) {
+    		inspectClass(interfaces[i], obj, recursive, depth+1);
     	}
     	
     	indent(depth);
     	
-		System.out.println("----END METHODS----");
-    	System.out.println();
-    	
-    	indent(depth);
-    	
+		System.out.println("----END INTERFACES----");
+	}
+
+	private void printFields(Class c, Object obj, boolean recursive, int depth) {
 		System.out.println("----START FIELDS----");
     	Field[] fields = c.getDeclaredFields();
     	for(int i = 0; i < fields.length; i++) {
@@ -143,42 +128,72 @@ public class Inspector {
 				
 			}
     	}
-    	
     	indent(depth);
-    	
 		System.out.println("----END FIELDS----");
-    	System.out.println();
-    	
-    	indent(depth);
-    	
-		System.out.println("----START INTERFACES----");
-    	Class<?>[] interfaces = c.getInterfaces();
-    	for(int i = 0; i < interfaces.length; i++) {
-    		inspectClass(interfaces[i], obj, recursive, depth+1);
+	}
+
+	private void printMethods(Class c, int depth) {
+		System.out.println("----START METHODS----");
+    	Method[] meths = c.getDeclaredMethods();
+    	for(int i = 0; i < meths.length; i++) {
+    		
+        	indent(depth);
+        	
+    		System.out.println("METHOD " + i + ": " + meths[i].getName());
+    		
+        	indent(depth);
+        	
+    		System.out.println("EXCEPTION TYPES: " + Arrays.asList(meths[i].getExceptionTypes()));
+    		
+        	indent(depth);
+        	
+    		System.out.println("PARAMETER TYPES: " + Arrays.asList(meths[i].getParameterTypes()));
+    		
+        	indent(depth);
+        	
+    		System.out.println("RETURN TYPE: " + Arrays.asList(meths[i].getReturnType()));
+    		
+    		indent(depth);
+        	
+    		System.out.println("MODIFERS: " + Arrays.asList(Modifier.toString(meths[i].getModifiers())));
     	}
     	
     	indent(depth);
     	
-		System.out.println("----END INTERFACES----");
-		System.out.println();
-    	indent(depth);
-    	
-		System.out.println("----START SUPERCLASSES----");
-    	Class temp = c;
-    	while(temp.getSuperclass() != null) {
-    		temp = temp.getSuperclass();
-    		inspectClass(temp, obj, recursive, depth+1);
+		System.out.println("----END METHODS----");
+	}
+
+	private void printConstructors(Class c, int depth) {
+		System.out.println("----START CONSTRUCTORS----");
+    	Constructor<?>[] cons = c.getConstructors();
+    	for(int i = 0; i < cons.length; i++) {
+    		
+        	indent(depth);
+        	
+    		System.out.println("CONSTRUCTOR " + i + ": " + cons[i].getName());
+    		
+        	indent(depth);
+        	
+        	Class<?>[] types = cons[i].getParameterTypes();
+        	System.out.println("TYPES: " + Arrays.asList(types));
+        	
+        	indent(depth);
+        	
+        	int mods = cons[i].getModifiers();
+        	System.out.println("MODIFIERS: " + Modifier.toString(mods));
+    		System.out.println("----END CONSTRUCTORS----");
+        
     	}
-    	
-    	indent(depth);
-    	
-		System.out.println("----END SUPERCLASSES----");
-		System.out.println();
-		
-    	indent(depth);
-    	
-		System.out.println("####END CLASS INSPECTION####");
-    }
+	}
+
+	private void printClassName(Class c) {
+		if(c.isInterface() == false) {
+    		System.out.println("CLASS NAME: " + c.getName());
+    	}
+    	else {
+    		System.out.println("INTERFACE NAME: " + c.getName());
+    	}
+	}
 
 	private void indent(int depth) {
 		for(int i = 0; i < depth; i++) {
